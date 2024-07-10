@@ -1,6 +1,6 @@
 const path = require('node:path');
 const fs = require('node:fs/promises');
-
+// npm init - create project
 
 //ДЗ:
 // Створити папку "baseFolder". В ній створити 5 папок,
