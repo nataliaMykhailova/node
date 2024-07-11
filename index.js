@@ -161,18 +161,3 @@ app.delete('/users/:id', async (req, res) => {
     }
 
 })
-
-
-app.delete('/users/:userId', (req, res) => {
-    try {
-        const userId = Number(req.params.userId);
-        const index = users.findIndex(user => user.id === userId);
-        if (index === -1) {
-            return res.status(404).json('User not found')
-        }
-        users.splice(index, 1);
-        res.sendStatus(204);
-    } catch (e) {
-        res.status(400).json(e.message)
-    }
-})
