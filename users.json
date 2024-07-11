@@ -33,12 +33,5 @@
     "age": 37,
     "email": "user8@gmail.com",
     "password": "123user8"
-  },
-  {
-    "id": 9,
-    "username": "User9",
-    "age": 23,
-    "email": "user9@gmail.com",
-    "password": "123user9"
   }
 ]
