@@ -1,12 +1,5 @@
 [
   {
-    "id": 4,
-    "username": "User4",
-    "age": 56,
-    "email": "user4@gmail.com",
-    "password": "123user4"
-  },
-  {
     "id": 5,
     "username": "User5",
     "age": 42,
@@ -33,5 +26,26 @@
     "age": 37,
     "email": "user8@gmail.com",
     "password": "123user8"
+  },
+  {
+    "id": 9,
+    "username": "User10",
+    "age": 21,
+    "email": "user1@gmail.com",
+    "password": "123user10"
+  },
+  {
+    "id": 10,
+    "username": "User11",
+    "age": 73,
+    "email": "user11@gmail.com",
+    "password": "123user11"
+  },
+  {
+    "id": 11,
+    "username": "User12",
+    "age": 73,
+    "email": "user12@gmail.com",
+    "password": "123user12"
   }
 ]
