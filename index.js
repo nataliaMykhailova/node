@@ -1,14 +1,11 @@
 const express = require('express')
 const app = express();
-const path = require('node:path');
-const fs = require('node:fs/promises');
+const {write, read} = require('./fsService')
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 const PORT = 3000;
-
-const usersPath = path.join(__dirname, 'users.json');
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
@@ -16,8 +13,8 @@ app.listen(PORT, () => {
 
 app.get('/users', async (req, res) => {
     try {
-        const data = await fs.readFile(usersPath, 'utf8');
-        res.json(JSON.parse(data));
+        const users = await read();
+        res.json(users);
     } catch (err) {
         res.status(500).json(err.message);
     }
@@ -26,8 +23,7 @@ app.get('/users', async (req, res) => {
 app.post('/users', async (req, res) => {
     try {
         const { username, age, email, password} = req.body;
-        const data = await fs.readFile(usersPath, 'utf8');
-        const users = JSON.parse(data);
+        const users = await read();
         const indexEmail = users.findIndex((user) => user.email === email);
         const indexUsername = users.findIndex((user) => user.username === username);
         if (indexEmail !== -1) {
@@ -60,11 +56,11 @@ app.post('/users', async (req, res) => {
             password
         }
         users.push(newUser);
-        await fs.writeFile(usersPath, JSON.stringify(users,  null, 2));
+        await write(users);
         res.status(201).json(newUser);
 
     }catch(err) {
-        res.status(400).json(err.message)
+        res.status(500).json(err.message)
     }
 })
 
@@ -74,8 +70,7 @@ app.get('/users/:id', async (req, res) => {
         if(!/^\d+$/.test(id)) {
             return res.status(400).send('Invalid user ID')
         }
-        const data = await fs.readFile(usersPath, 'utf8');
-        const users = JSON.parse(data);
+        const users = await read();
         const user = await  users.find(user => user.id === +id);
         if (!user) {
             return res.status(404).json('User not found');
@@ -89,8 +84,7 @@ app.get('/users/:id', async (req, res) => {
 
 app.put('/users/:id', async (req, res) => {
     try {
-        const data = await fs.readFile(usersPath, 'utf8');
-        const users = JSON.parse(data);
+        const users = await read();
 
         const {id} = req.params;
         const {username, age, email, password} = req.body;
@@ -135,16 +129,15 @@ app.put('/users/:id', async (req, res) => {
             }
             user.password = password
         }
-        await fs.writeFile(usersPath, JSON.stringify(users,  null, 2));
+        await write(users);
         res.status(201).json(user);
     } catch (err) {
-        res.status(400).json(err.message);
+        res.status(500).json(err.message);
     }
 });
 app.delete('/users/:id', async (req, res) => {
     try {
-        const data = await fs.readFile(usersPath, 'utf8');
-        const users = JSON.parse(data);
+        const users = await read();
         const {id} = req.params;
         if(!/^\d+$/.test(id)) {
             return res.status(400).send('Invalid user ID')
@@ -154,10 +147,10 @@ app.delete('/users/:id', async (req, res) => {
             return res.status(404).json('User not found')
         }
         users.splice(index, 1);
-        await fs.writeFile(usersPath, JSON.stringify(users,  null, 2));
+        await write(users);
         res.sendStatus(204);
     } catch (e) {
-        res.status(400).json(e.message)
+        res.status(500).json(e.message)
     }
 
 })
