@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 
-import { IUser } from "../interfaces/user.interface";
-import { userService } from "../services/user.service";
+import { ICar } from "../interfaces/car.interface";
+import { carService } from "../services/car.service";
 
-class UserController {
+class CarController {
   public async getList(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await userService.getList();
+      const result = await carService.getList();
       res.json(result);
     } catch (e) {
       next(e);
@@ -15,17 +15,17 @@ class UserController {
 
   public async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const dto = req.body as IUser;
-      const result = await userService.create(dto);
+      const dto = req.body as ICar;
+      const result = await carService.create(dto);
       res.status(201).json(result);
     } catch (e) {
       next(e);
     }
   }
-  public async getOneUser(req: Request, res: Response, next: NextFunction) {
+  public async getOneCar(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const result = await userService.getOneUser(id);
+      const result = await carService.getOneCar(id);
       res.json(result);
     } catch (e) {
       next(e);
@@ -34,8 +34,8 @@ class UserController {
   public async update(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      const dto = req.body as IUser;
-      const result = await userService.update(id, dto);
+      const dto = req.body as ICar;
+      const result = await carService.update(id, dto);
       res.status(201).json(result);
     } catch (e) {
       next(e);
@@ -44,7 +44,7 @@ class UserController {
   public async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
-      await userService.delete(id);
+      await carService.delete(id);
       res.sendStatus(204);
     } catch (e) {
       next(e);
@@ -52,4 +52,4 @@ class UserController {
   }
 }
 
-export const userController = new UserController();
+export const carController = new CarController();
