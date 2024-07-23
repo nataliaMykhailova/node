@@ -15,11 +15,16 @@ class UserRepository {
   }
 
   public async update(id: string, dto: IUser): Promise<IUser> {
-    return await UserModel.findByIdAndUpdate(id, dto, { new: true });
+    return await UserModel.findByIdAndUpdate(id, dto, {
+      returnDocument: "after",
+    });
   }
 
   public async delete(id: string): Promise<void> {
     await UserModel.findByIdAndDelete(id);
+  }
+  public async getByParams(params: Partial<IUser>): Promise<IUser> {
+    return await UserModel.findOne(params);
   }
 }
 

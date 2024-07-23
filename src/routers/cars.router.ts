@@ -18,10 +18,9 @@ router.put(
   "/:id",
   commonMiddleware.isValidId("id"),
   commonMiddleware.isValidUpdateDto(updateCarSchema, [
-    "username",
-    "age",
-    "email",
-    "phone",
+    "model",
+    "price",
+    "year",
   ]),
   carController.update,
 );

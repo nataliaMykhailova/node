@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Schema } from "joi";
+import { ObjectSchema, Schema } from "joi";
 import { isObjectIdOrHexString } from "mongoose";
 
 import { ApiError } from "../errors/api-error";
@@ -18,9 +18,9 @@ class CommonMiddleware {
       }
     };
   }
-  public isValidCreateDto(schema: Schema) {
+  public isValidCreateDto(validator: ObjectSchema) {
     return (req: Request, res: Response, next: NextFunction) => {
-      const { error } = schema.validate(req.body);
+      const { error } = validator.validate(req.body);
       if (error) {
         throw new ApiError(
           error.details.map((el) => el.message).join(","),
