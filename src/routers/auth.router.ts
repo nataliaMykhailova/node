@@ -1,0 +1,21 @@
+import { Router } from "express";
+
+import { authController } from "../controllers/auth.controller";
+import { commonMiddleware } from "../middlewares/common.middleware";
+import { UserValidator } from "../validators/user.validators";
+
+const router = Router();
+
+router.post(
+  "/sign-up",
+  commonMiddleware.isValidCreateDto(UserValidator.createUser),
+  authController.signUp,
+);
+router.post(
+  "/sign-in",
+  commonMiddleware.isValidCreateDto(UserValidator.loginUser),
+  authController.signIn,
+);
+router.post("/refresh", authController.refreshToken);
+
+export const authRouter = router;

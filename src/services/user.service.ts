@@ -7,10 +7,6 @@ class UserService {
     return await userRepository.getList();
   }
 
-  public async create(dto: IUser): Promise<IUser> {
-    return await userRepository.create(dto);
-  }
-
   public async getOneUser(id: string): Promise<IUser> {
     return await userRepository.getOneUser(id);
   }
