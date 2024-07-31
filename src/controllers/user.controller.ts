@@ -12,6 +12,15 @@ class UserController {
       next(e);
     }
   }
+  public async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = req.res.locals.jwtPayload.userId as string;
+      const result = await userService.getMe(id);
+      res.json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
   public async getOneUser(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
@@ -21,20 +30,20 @@ class UserController {
       next(e);
     }
   }
-  public async update(req: Request, res: Response, next: NextFunction) {
+  public async updateMe(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
+      const id = req.res.locals.jwtPayload.userId as string;
       const dto = req.body as IUser;
-      const result = await userService.update(id, dto);
+      const result = await userService.updateMe(id, dto);
       res.status(201).json(result);
     } catch (e) {
       next(e);
     }
   }
-  public async delete(req: Request, res: Response, next: NextFunction) {
+  public async deleteMe(req: Request, res: Response, next: NextFunction) {
     try {
-      const id = req.params.id;
-      await userService.delete(id);
+      const id = req.res.locals.jwtPayload.userId as string;
+      await userService.deleteMe(id);
       res.sendStatus(204);
     } catch (e) {
       next(e);

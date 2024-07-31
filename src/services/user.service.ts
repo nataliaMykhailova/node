@@ -7,15 +7,18 @@ class UserService {
     return await userRepository.getList();
   }
 
+  public async getMe(id: string): Promise<IUser> {
+    return await userRepository.getOneUser(id);
+  }
   public async getOneUser(id: string): Promise<IUser> {
     return await userRepository.getOneUser(id);
   }
 
-  public async update(id: string, dto: IUser): Promise<IUser> {
+  public async updateMe(id: string, dto: IUser): Promise<IUser> {
     return await userRepository.update(id, dto);
   }
 
-  public async delete(id: string): Promise<void> {
+  public async deleteMe(id: string): Promise<void> {
     const user = await userRepository.getOneUser(id);
     if (!user) {
       throw new ApiError("User not found", 404);

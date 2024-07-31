@@ -19,6 +19,9 @@ class TokenRepository {
       { new: true },
     );
   }
+  public async deleteById(id: string): Promise<void> {
+    await Token.deleteOne({ _id: id });
+  }
 }
 
 export const tokenRepository = new TokenRepository();

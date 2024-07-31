@@ -9,19 +9,19 @@ const router = Router();
 
 router.get("/", userController.getList);
 
-router.get("/:id", commonMiddleware.isValidId("id"), userController.getOneUser);
+router.get("/me", authMiddleware.checkAccessToken, userController.getMe);
 router.put(
   "/:id",
   authMiddleware.checkAccessToken,
-  commonMiddleware.isValidId("id"),
   commonMiddleware.isValidUpdateDto(UserValidator.updateUser, [
     "username",
     "age",
     "email",
     "phone",
   ]),
-  userController.update,
+  userController.updateMe,
 );
-router.delete("/:id", commonMiddleware.isValidId("id"), userController.delete);
+router.delete("/me", authMiddleware.checkAccessToken, userController.deleteMe);
+router.get("/:id", commonMiddleware.isValidId("id"), userController.getOneUser);
 
 export const userRouter = router;

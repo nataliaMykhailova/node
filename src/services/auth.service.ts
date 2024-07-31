@@ -1,6 +1,6 @@
 import { ApiError } from "../errors/api-error";
 import { ILoginDto } from "../interfaces/login.interface";
-import { ITokenPair } from "../interfaces/token.interface";
+import { ITokenPair, ITokenPayload } from "../interfaces/token.interface";
 import { IUser } from "../interfaces/user.interface";
 import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
@@ -54,31 +54,17 @@ class AuthService {
       throw new ApiError("Email already exists", 409);
     }
   }
-  public async refreshToken(refreshToken: string): Promise<ITokenPair> {
-    try {
-      const payload = tokenService.checkToken(refreshToken);
-      const tokenFromDb = await tokenRepository.findByParams({ refreshToken });
-
-      if (!tokenFromDb) {
-        throw new ApiError("Invalid refresh token", 401);
-      }
-
-      const user = await userRepository.getOneUser(payload.userId);
-      if (!user) {
-        throw new ApiError("User not found", 404);
-      }
-
-      const tokens = await tokenService.generatePair({
-        userId: user._id,
-        role: user.role,
-      });
-
-      await tokenRepository.update(refreshToken, tokens);
-
-      return tokens;
-    } catch (error) {
-      throw new ApiError("Invalid refresh token", 401);
-    }
+  public async refreshToken(
+    payload: ITokenPayload,
+    oldTokenId: string,
+  ): Promise<ITokenPair> {
+    const tokens = await tokenService.generatePair({
+      userId: payload.userId,
+      role: payload.role,
+    });
+    await tokenRepository.create({ ...tokens, _userId: payload.userId });
+    await tokenRepository.deleteById(oldTokenId);
+    return tokens;
   }
 }
 
