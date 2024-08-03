@@ -3,7 +3,7 @@
   "version": "1.1.2",
   "description": "",
   "main": "src/main.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start:dev": "rimraf dist && tsc-watch --onSuccess \"npm run watch:server\"",
     "watch:server": "nodemon --exec ts-node src/main.ts",
@@ -21,14 +21,11 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "fs": "^0.0.1-security",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.5.1",
-    "xml2js": "^0.6.2"
+    "mongoose": "^8.5.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.7.0",
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
@@ -41,7 +38,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^15.8.0",
-    "husky": "^9.1.0",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "nodemon": "^3.1.4",
     "prettier": "^3.3.3",
