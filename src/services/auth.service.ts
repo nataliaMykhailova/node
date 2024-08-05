@@ -86,6 +86,15 @@ class AuthService {
       name: user.username,
     });
   }
+  public async forgotPassword(email: string): Promise<void> {
+    const user = await userRepository.getByParams({ email });
+    if (user) {
+      await emailService.sendEmail(EmailType.FORGOT_PASSWORD, email, {
+        name: user.username,
+        actionToken: "actionToken",
+      });
+    }
+  }
 }
 
 export const authService = new AuthService();

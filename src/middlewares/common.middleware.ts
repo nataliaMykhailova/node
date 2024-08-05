@@ -57,6 +57,16 @@ class CommonMiddleware {
       }
     };
   }
+  public isBodyValid(validator: ObjectSchema) {
+    return (req: Request, res: Response, next: NextFunction) => {
+      try {
+        req.body = validator.validate(req.body);
+        next();
+      } catch (e) {
+        next(new ApiError(e.details[0].message, 400));
+      }
+    };
+  }
 }
 
 export const commonMiddleware = new CommonMiddleware();

@@ -53,6 +53,15 @@ class AuthController {
       next(error);
     }
   }
+  public async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const jwtPayload = req.body;
+      await authService.forgotPassword(jwtPayload);
+      res.sendStatus(204);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const authController = new AuthController();
