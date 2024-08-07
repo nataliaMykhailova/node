@@ -58,9 +58,9 @@ class CommonMiddleware {
     };
   }
   public isBodyValid(validator: ObjectSchema) {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
       try {
-        req.body = validator.validate(req.body);
+        req.body = await validator.validateAsync(req.body);
         next();
       } catch (e) {
         next(new ApiError(e.details[0].message, 400));

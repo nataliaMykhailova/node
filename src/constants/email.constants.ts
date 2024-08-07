@@ -1,4 +1,4 @@
-import { EmailType } from "../enums/email-type.enun";
+import { EmailType } from "../enums/email-type.enum";
 
 export const emailConstants = {
   [EmailType.WELCOME]: {

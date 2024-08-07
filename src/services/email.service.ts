@@ -5,7 +5,7 @@ import hbs from "nodemailer-express-handlebars";
 
 import { configs } from "../configs/configs";
 import { emailConstants } from "../constants/email.constants";
-import { EmailType } from "../enums/email-type.enun";
+import { EmailType } from "../enums/email-type.enum";
 import { EmailTypeToPayloadType } from "../types/email-type-to-payload.type";
 
 class EmailService {
@@ -42,7 +42,7 @@ class EmailService {
   ): Promise<void> {
     const { subject, template } = emailConstants[type];
 
-    // context["frontUrl"] = configs.FRONTEND_URL;
+    context["frontUrl"] = configs.FRONTEND_URL;
     const options = {
       to,
       subject,
